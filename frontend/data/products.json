@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "image": "./image/bed_2.png",
+    "price": "300",
+    "name": "Bed"
+  },
+  {
+    "id": 2,
+    "image": "./image/card2.png",
+    "price": "215",
+    "name": "Comfort Chair"
+  },
+  {
+    "id": 3,
+    "image": "./image/card3.png",
+    "price": "50",
+    "name": "Basic Chair"
+  },
+  {
+    "id": 4,
+    "image": "./image/comp_chair1.webp",
+    "price": "79",
+    "name": "Computer Chair"
+  },
+  {
+    "id": 5,
+    "image": "./image/coffee_table_1.png",
+    "price": "39",
+    "name": "Coffee Table"
+  },
+  {
+    "id": 6,
+    "image": "./image/card6.png",
+    "price": "699",
+    "name": "Modern Sofa"
+  },
+  {
+    "id": 7,
+    "image": "./image/yellow_chair_1.png",
+    "price": "349",
+    "name": "Modern Chair"
+  },
+  {
+    "id": 8,
+    "image": "./image/glass_table_1.png",
+    "price": "399",
+    "name": "Glass Table"
+  }
+]
