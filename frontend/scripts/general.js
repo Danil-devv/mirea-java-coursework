@@ -12,6 +12,20 @@ function addToSessionStorageCart(id) {
     }
 }
 
+function decrementFromSessionCart(id) {
+    let product;
+    if (sessionStorage.getItem(String(id)) === null) {
+        return
+    }
+    product = JSON.parse(sessionStorage.getItem(String(id)))
+    product.quantity--
+    if (product.quantity <= 0) {
+        sessionStorage.removeItem(String(id))
+    } else {
+        sessionStorage.setItem(String(id), JSON.stringify(product))
+    }
+}
+
 function updateCountOfProductsInHeader() {
     let placeholder = document.querySelector("#header-product-count");
     let total = 0;
@@ -29,8 +43,35 @@ function updateCountOfProductsInHeader() {
     placeholder.innerHTML = `${total}`;
 }
 
-function serviceAddToCart(id) {
-    fetch("http://localhost:8080/api/cart/" + id.toString(), {
+async function serviceDecrementFromCart(id) {
+    await fetch("http://localhost:8080/api/cart/" + id.toString(), {
+        method: "DELETE",
+        headers: {
+            "User-Agent": "IntelliJ HTTP Client/IntelliJ IDEA 2024.1",
+            "Accept-Encoding": "Access-Control-Request-Method",
+            "Accept": "*/*",
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + sessionStorage["token"],
+        },
+    }).then(function (response) {
+        if (response.status !== 200) {
+            return "error"
+        }
+        return ""
+    }).then(function (p) {
+        if (p === "error") {
+            alert("Не удалось добавить товар в корзину")
+        } else {
+            decrementFromSessionCart(id - 1);
+            // updating count of products in header
+            updateCountOfProductsInHeader();
+            console.log("response: ", p.toString())
+        }
+    });
+}
+
+async function serviceAddToCart(id) {
+    await fetch("http://localhost:8080/api/cart/" + id.toString(), {
         method: "PUT",
         headers: {
             "User-Agent": "IntelliJ HTTP Client/IntelliJ IDEA 2024.1",
@@ -48,7 +89,7 @@ function serviceAddToCart(id) {
         if (p === "error") {
             alert("Не удалось добавить товар в корзину")
         } else {
-            addToSessionStorageCart(id-1);
+            addToSessionStorageCart(id - 1);
             // updating count of products in header
             updateCountOfProductsInHeader();
             console.log("response: ", p.toString())
@@ -87,23 +128,23 @@ async function loadCart() {
             "Authorization": "Bearer " + sessionStorage["token"],
         },
     }).then(function (response) {
-            if (response.status !== 200) {
-                return "error"
-            }
-            return response.json();
+        if (response.status !== 200) {
+            return "error"
+        }
+        return response.json();
     }).then(function (p) {
-            if (p === "error") {
-                alert("Не удалось загрузить корзину")
-            } else {
-                for (let i = 0; i < p["cartResponses"].length; i++) {
-                    let id = p["cartResponses"][i]["productResponse"]["id"]-1;
-                    let count = p["cartResponses"][i]["count"]
-                    console.log(id + ": " + count)
-                    for (let j = 0; j < count; j++) {
-                        addToSessionStorageCart(id)
-                    }
+        if (p === "error") {
+            alert("Не удалось загрузить корзину")
+        } else {
+            for (let i = 0; i < p["cartResponses"].length; i++) {
+                let id = p["cartResponses"][i]["productResponse"]["id"] - 1;
+                let count = p["cartResponses"][i]["count"]
+                console.log(id + ": " + count)
+                for (let j = 0; j < count; j++) {
+                    addToSessionStorageCart(id)
                 }
             }
+        }
     });
 }
 

@@ -48,23 +48,13 @@ function update() {
     placeholder.innerHTML = `${total}`;
 }
 
-// TODO: заменить на запросы к API
-function decrementCount(id) {
-    let product = JSON.parse(sessionStorage.getItem(String(id)));
-    product.quantity--;
-    if (product.quantity === 0) {
-        sessionStorage.removeItem(String(id));
-    } else {
-        sessionStorage.setItem(String(id), JSON.stringify(product))
-    }
+async function decrementCount(id) {
+    await serviceDecrementFromCart(id+1);
     update();
 }
 
-// TODO: заменить на запросы к API
-function incrementCount(id) {
-    let product = JSON.parse(sessionStorage.getItem(String(id)));
-    product.quantity++;
-    sessionStorage.setItem(String(id), JSON.stringify(product))
+async function incrementCount(id) {
+    await serviceAddToCart(id+1)
     update();
 }
 
