@@ -41,8 +41,8 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @ManyToMany
-    Set<Product> productsInCart;
+    @OneToMany(mappedBy = "user", cascade =  {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Cart> productsInCart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

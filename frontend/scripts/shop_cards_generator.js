@@ -1,4 +1,4 @@
-let data = []
+
 let banned  = []
 let jsonProducts = []
 
@@ -20,7 +20,7 @@ function update() {
                                     <h3 class="card-titel text-center">${product.name}</h3>
                                     <p class="card-text text-center">$${product.price}</p>
                                     <div id="btn3"><a href="product_card.html?id=${product.id-1}"><button>About</button></a></div>
-                                    <div id="btn3" onclick="addToCart(${product.id-1})"><a><button>Add to card</button></a></div>
+                                    <div id="btn3" onclick="addToCart(${product.id})"><a><button>Add to card</button></a></div>
                                 </div>
                             </div>
                         </div>`;
@@ -41,31 +41,7 @@ function update() {
 
 // TODO: заменить на POST /api/cart
 function addToCart(id) {
-    let product;
-    if (sessionStorage.getItem(String(id)) === null) {
-        product = {id: id, name: data[id].name, price: data[id].price, image: data[id].image, quantity: 1}
-        sessionStorage.setItem(String(id), JSON.stringify(product))
-    } else {
-        product = JSON.parse(sessionStorage.getItem(String(id)))
-        product.quantity++
-        sessionStorage.setItem(String(id), JSON.stringify(product))
-    }
-
-    // updating count of products in header
-    let placeholder = document.querySelector("#header-product-count");
-    let total = 0;
-    for (let i = 0; i < sessionStorage.length; i++) {
-        // set iteration key name
-        let key = sessionStorage.key(i);
-        if (key === "token" || key === "username" || key === "email") {
-            continue;
-        }
-
-        // use key name to retrieve the corresponding value
-        let product = JSON.parse(sessionStorage.getItem(key));
-        total += product.quantity;
-    }
-    placeholder.innerHTML = `${total}`;
+    serviceAddToCart(id);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -151,7 +127,6 @@ fetch("http://localhost:8080/api/products", {
         let product;
         for (let i = 1; i <= products.length; i++) {
             product = products[i-1];
-            data.push(product)
             banned.push(false)
             jsonProducts.push(product)
             out += `<div class="col-lg-3 col-md-6 col-sm-12 py-3">
@@ -161,7 +136,7 @@ fetch("http://localhost:8080/api/products", {
                                     <h3 class="card-titel text-center">${product.name}</h3>
                                     <p class="card-text text-center">$${product.price}</p>
                                     <div id="btn3"><a href="product_card.html?id=${product.id-1}"><button>About</button></a></div>
-                                    <div id="btn3" onclick="addToCart(${product.id-1})"><a><button>Add to cart</button></a></div>
+                                    <div id="btn3" onclick="addToCart(${product.id})"><a><button>Add to cart</button></a></div>
                                 </div>
                             </div>
                         </div>`;

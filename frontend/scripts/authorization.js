@@ -33,6 +33,7 @@ function authorizeUser() {
             } else {
                 sessionStorage.setItem("token", p["token"])
                 sessionStorage.setItem("username", username)
+                loadCart();
                 window.location.href = "home.html";
             }
         });

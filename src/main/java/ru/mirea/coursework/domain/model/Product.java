@@ -22,9 +22,6 @@ public class Product {
     private String name;
     private String image;
     private String price;
-    @ManyToMany
-    Set<User> userLikes;
-
     public Product(String name, String image, String price) {
         this.name = name;
         this.image = image;

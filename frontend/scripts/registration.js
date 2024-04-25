@@ -37,6 +37,7 @@ function registerUser() {
                 sessionStorage.setItem("token", p["token"])
                 sessionStorage.setItem("username", username)
                 sessionStorage.setItem("email", email)
+                loadCart();
                 window.location.href = "registration.html";
                 console.log("response: ", p.toString())
             }
@@ -47,10 +48,11 @@ function unloginUser() {
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("username")
     sessionStorage.removeItem("email")
+    clearSessionStorage();
     window.location.href = "registration.html";
 }
 
-window.onload = function () {
+window.addEventListener("load", function () {
     let reg = document.querySelector("#registration-field");
     let profileData = document.querySelector("#profile-data");
 
@@ -78,4 +80,4 @@ window.onload = function () {
         <div>Уже есть аккаунт? <a href="authorization.html">Войти в аккаут</a></div>
     </div>`
     }
-}
+})

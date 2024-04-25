@@ -72,6 +72,8 @@
 </nav>
 <!-- navbar top -->
 
+<script src="scripts/general.js"></script>
+
 <!-- about -->
 <div class="container">
     <div class="wrapper">
@@ -116,25 +118,6 @@
     </div>
 </footer>
 <!-- footer -->
-
-<script>
-    // updating count of products in header
-    let placeholder = document.querySelector("#header-product-count");
-    let total = 0;
-    for (let i = 0; i < sessionStorage.length; i++) {
-        // set iteration key name
-        let key = sessionStorage.key(i);
-        if (key === "token" || key === "username" || key === "email") {
-            continue;
-        }
-
-        // use key name to retrieve the corresponding value
-        let product = JSON.parse(sessionStorage.getItem(key));
-        total += product.quantity;
-    }
-    placeholder.innerHTML = `${total}`;
-</script>
-<!-- Link to the javascript file -->
 
 </body>
 </html>
